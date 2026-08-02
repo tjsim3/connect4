@@ -36,7 +36,7 @@ def trainStageOne(samples, epochs, d="False"):
     print("I made it to the training function")
     model = NeuralNetwork()
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    optimizer = torch.optim.Adam(model.parameters(), lr=5e-4)
 
     if d == "False":
         data, labels, players = generateStageOne(samples)

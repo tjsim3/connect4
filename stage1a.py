@@ -5,8 +5,10 @@ from model import trainStageOne, save_model
 
 print("Initializing")
 model = trainStageOne(
-    samples=10000,
-    epochs=100,
+    samples=100000,
+    epochs=10000,
+
+    #string "True" for defense, "False" for offense, "both" for both
     d = "both"
 )
 
