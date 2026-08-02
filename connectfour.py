@@ -46,12 +46,20 @@ def getRandomWinningBoard(defense):
             for i in range(6):
                 if board[5-i][col] == player:
                     board[5-i][col] = 0
-                    if defense:
+                    if defense == "True":
                         throwMove = random.randint(0, 6)
                         while throwMove == col:
                             throwMove = random.randint(0, 6)
                         player = 1 if player == 2 else 2
                         makeMove(player, throwMove, board)
+
+                    if defense == "both":
+                        if random.randint(0, 1) == 0:
+                            throwMove = random.randint(0, 6)
+                            while throwMove == col:
+                                throwMove = random.randint(0, 6)
+                            player = 1 if player == 2 else 2
+                            makeMove(player, throwMove, board)
                     
                     w = True
                     player = 1 if player == 2 else 2

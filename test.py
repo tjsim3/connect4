@@ -8,7 +8,7 @@ from model import NeuralNetwork, load_model
 
 def predict(game = None, model=None):
     PROJECT_ROOT = Path(__file__).resolve().parent
-    MODEL_PATH = PROJECT_ROOT / "models" / "stage1.2[0].pth"
+    MODEL_PATH = PROJECT_ROOT / "models" / "stage1[0].pth"
 
     model = load_model(model) if model is not None else load_model(MODEL_PATH)
     model.eval()
@@ -20,7 +20,7 @@ def predict(game = None, model=None):
         0, 0, 0, 0, 0, 0, 0,
         0, 1, 0, 0, 0, 0, 0,
         1, 1, 0, 0, 2, 2, 2,
-        1
+        2
     ] if game is None else game
 
     game = torch.tensor(game, dtype=torch.float32).unsqueeze(0)

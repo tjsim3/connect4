@@ -1,7 +1,7 @@
 from connectfour import getRandomBoard, getRandomWinningBoard
 from tqdm import tqdm
 
-def generateStageOne(samples, d=False):
+def generateStageOne(samples, d="False"):
     print("I made it to the data generation function")
     data = []
     labels = []

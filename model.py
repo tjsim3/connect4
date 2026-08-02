@@ -32,18 +32,21 @@ class NeuralNetwork(torch.nn.Module):
         return logits
 
 
-def trainStageOne(samples, epochs, d=False):
+def trainStageOne(samples, epochs, d="False"):
     print("I made it to the training function")
     model = NeuralNetwork()
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
-    if not d:
+    if d == "False":
         data, labels, players = generateStageOne(samples)
+    elif d == "True":
+        data, labels, players = generateStageOne(samples, d="True")
+    elif d == "both":
+        data, labels, players = generateStageOne(samples, d="both")
     else:
-        data, labels, players = generateStageOne(samples, d=True)
+        raise ValueError("Invalid value for d. Must be False, True, or 'both'.")
 
-    
     for i in range(len(data)):
         flat = []
 
