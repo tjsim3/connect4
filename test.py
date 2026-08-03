@@ -8,7 +8,7 @@ from model import NeuralNetwork, load_model
 
 def predict(game = None, model=None):
     PROJECT_ROOT = Path(__file__).resolve().parent
-    MODEL_PATH = PROJECT_ROOT / "models" / "stage1[1].pth"
+    MODEL_PATH = PROJECT_ROOT / "models" / "stage1[2].pth"
 
     model = load_model(model) if model is not None else load_model(MODEL_PATH)
     model.eval()
