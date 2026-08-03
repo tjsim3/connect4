@@ -116,8 +116,3 @@ def checkDraw(board):
             if board[row][col] == 0:
                 return False
     return True
-
-
-for i in range(100):
-    board = getRandomBoard()
-

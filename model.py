@@ -1,4 +1,5 @@
 import torch
+from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
 from generatedata import generateStageOne
@@ -12,6 +13,51 @@ def load_model(filename):
     model = NeuralNetwork()
     model.load_state_dict(torch.load(filename))
     model.eval()
+    return model
+
+def loadData(path, batch_size=64):
+    saved = torch.load(path)
+    data = saved["data"]
+    labels = saved["labels"]
+    players = saved["players"]
+
+    dataset = TensorDataset(data, labels, players)
+
+    loader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=True
+    )
+
+    return loader
+
+def trainStageOne(samples, epochs, d="False"):
+    print("I made it to the training function")
+    if epochs <= 0:
+        raise ValueError("epochs must be greater than 0")
+    
+    model = NeuralNetwork()
+    loss_fn = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+    loader = loadData("datasets/stage1_data_10k.pt", batch_size=64)
+
+    for epoch in tqdm(range(epochs)):
+        model.train()
+        for data, labels, player in loader:
+            data = data.view(data.size(0), -1)
+            data = torch.cat(
+                (data, player.unsqueeze(1).float()),
+                dim=1
+            )
+
+            optimizer.zero_grad()
+            output = model(data)
+            loss = loss_fn(output, labels)
+            loss.backward()
+            optimizer.step()
+            
+    print("I finished training")
     return model
 
 class NeuralNetwork(torch.nn.Module):
@@ -30,44 +76,3 @@ class NeuralNetwork(torch.nn.Module):
         x = self.flatten(x)
         logits = self.linear_relu_stack(x)
         return logits
-
-
-def trainStageOne(samples, epochs, d="False"):
-    print("I made it to the training function")
-    model = NeuralNetwork()
-    loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=5e-4)
-
-    if d == "False":
-        data, labels, players = generateStageOne(samples)
-    elif d == "True":
-        data, labels, players = generateStageOne(samples, d="True")
-    elif d == "both":
-        data, labels, players = generateStageOne(samples, d="both")
-    else:
-        raise ValueError("Invalid value for d. Must be False, True, or 'both'.")
-
-    for i in range(len(data)):
-        flat = []
-
-        for row in data[i]:
-            flat.extend(row)
-        flat.append(players[i])
-        data[i] = flat
-        
-    data = torch.tensor(data, dtype=torch.float32)
-    labels = torch.tensor(labels, dtype=torch.long)
-    print("I finished making tensors")
-
-    for epoch in tqdm(range(epochs)):
-        model.train()
-        optimizer.zero_grad()
-        output = model(data)
-        loss = loss_fn(output, labels)
-        loss.backward()
-        optimizer.step()
-
-
-    print("I finished training")
-    print(f"Final loss: {loss.item()}") if not UnboundLocalError else print("Loss unbound")
-    return model

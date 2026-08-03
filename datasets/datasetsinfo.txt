@@ -1,0 +1,2 @@
+stage1_data.pt -> 1000000 boards generated from generateRandomWinningBoard
+stage1_data_10k.pt -> same with 10k boards
