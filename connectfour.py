@@ -59,6 +59,27 @@ def getRandomWinningBoard(defense="False"):
                         player = togglePlayer(player)
                 return board, win, player
 
+def getRandomNotWinningBoard():
+    while True:
+        board = [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0]
+        ]
+        moveCache = []
+
+        turns = random.randint(2, 6)
+        for i in range(turns):
+            moveCache.append((1, random.randint(0, 6)))
+            moveCache.append((2, random.randint(0, 6)))
+
+        for player, col in moveCache:
+            makeMove(player, col, board)
+        if not checkWin(1, board) and not checkWin(2, board):
+            return board
 
 def makeMove(player, col, board):
     for i in range(6):
@@ -116,3 +137,8 @@ def checkDraw(board):
             if board[row][col] == 0:
                 return False
     return True
+
+def printBoard(board):
+    for i in range(len(board)):
+        print(board[i])
+    print("---------------------")
