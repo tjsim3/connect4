@@ -1,12 +1,16 @@
-from connectfour import makeMove, checkWin, checkDraw, togglePlayer, printBoard
+import os
+from pathlib import Path
+
+from connectfour import makeMove, checkWin, checkDraw, togglePlayer
+from user import printBoard
 from model import NeuralNetwork
 
 import torch
 import numpy as np
 from random import randint, choice
-import pandas as pd
+import tqdm
 
-def mutate(model, mutation_rate=0.02, mutation_strength=0.1):
+def mutate(model, mutation_rate=0.02, mutation_strength=0.001):
     with torch.no_grad():
         for param in model.parameters():
             mask = torch.rand_like(param) < mutation_rate
@@ -96,7 +100,7 @@ def tournament(models):
     round_num = 1
 
     while len(contenders) > 1:
-        print(f"Round {round_num}: {len(contenders)} contenders")
+        #print(f"Round {round_num}: {len(contenders)} contenders")
 
         next_round = []
 
@@ -105,7 +109,7 @@ def tournament(models):
             model_b = contenders[i + 1]
 
             result, board = matchup(model_a, model_b)
-            printBoard(board)
+            #printBoard(board)
 
             if result == 1:
                 winner = model_a
@@ -120,16 +124,3 @@ def tournament(models):
         round_num += 1
 
     return contenders[0]
-
-def testloop(num_models=4, generations=4):
-    print("Generation 1")
-    models = [NeuralNetwork() for _ in range(num_models)]
-    for model in models:
-        mutate(model, 0.1)
-    model = tournament(models)
-    for i in range(generations-1):
-        print(f"Generation {i+2}")
-        models = copyAndMutate(model, num_models)
-        model = tournament(models)
-
-testloop(4, 4)
