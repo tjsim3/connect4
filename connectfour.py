@@ -137,8 +137,3 @@ def checkDraw(board):
             if board[row][col] == 0:
                 return False
     return True
-
-def printBoard(board):
-    for i in range(len(board)):
-        print(board[i])
-    print("---------------------")

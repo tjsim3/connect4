@@ -44,7 +44,10 @@ def uservmodel(model):
         [0,0,0,0,0,0,0]
     ]
 
-    model = load_model(model)
+    try: 
+        model = load_model(model)
+    except:
+        return "Could not load model"
 
     player = 1
     printBoard(board)

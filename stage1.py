@@ -2,7 +2,7 @@ from pathlib import Path
 
 from model import trainStageOne, save_model
 
-def stage1(samples=100000, epochs=100, d="both", model_name="stage1", model_dir="models"):
+def stage1(samples=100000, epochs=1000, d="both", model_name="stage1", model_dir="models"):
     print("Initializing")
     model = trainStageOne(
         samples=samples,

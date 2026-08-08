@@ -65,11 +65,11 @@ class NeuralNetwork(torch.nn.Module):
         super(NeuralNetwork, self).__init__()
         self.flatten = torch.nn.Flatten()
         self.linear_relu_stack = torch.nn.Sequential(
-            torch.nn.Linear(43, 128),
+            torch.nn.Linear(43, 17),
             torch.nn.ReLU(),
-            torch.nn.Linear(128, 64),
+            torch.nn.Linear(17, 16),
             torch.nn.ReLU(),
-            torch.nn.Linear(64, 7)
+            torch.nn.Linear(16, 7)
         )
 
     def forward(self, x):

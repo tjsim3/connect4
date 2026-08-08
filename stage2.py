@@ -39,4 +39,4 @@ def stage2(num_models=4, generations=4, model=None, model_name="stage2", model_d
 
     print(f"Saved model to {filename}")
 
-stage2(64, 100, "models/stage1[3].pth")
+stage2(64, 10000, "models/stage1[4].pth")
